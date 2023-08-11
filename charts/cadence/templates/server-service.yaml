@@ -31,7 +31,8 @@ spec:
 
 ---
 {{- range $service := (list "frontend" "matching" "history" "worker") }}
-{{- $serviceValues := index $.Values.server $service -}}
+{{- $serviceValues := index $.Values.server $service }}
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -72,6 +73,4 @@ spec:
     app.kubernetes.io/name: {{ include "cadence.name" $ }}
     app.kubernetes.io/instance: {{ $.Release.Name }}
     app.kubernetes.io/component: {{ $service }}
-
----
 {{- end }}

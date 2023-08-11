@@ -1,5 +1,6 @@
 {{- range $service := (list "frontend" "history" "matching" "worker") }}
-{{- $serviceValues := index $.Values.server $service -}}
+{{- $serviceValues := index $.Values.server $service }}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -143,5 +144,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
----
 {{- end }}

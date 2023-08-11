@@ -1,0 +1,9 @@
+dependencies:
+- name: cassandra
+  repository: https://charts.helm.sh/incubator
+  version: 0.13.4
+- name: mysql
+  repository: https://charts.helm.sh/stable
+  version: 1.6.9
+digest: sha256:2d4e9a7e9cb5917e7e7092e9c329e51004155b25b7b1ecfd773b113d8a092b5d
+generated: "2023-08-08T18:47:30.218128-07:00"
