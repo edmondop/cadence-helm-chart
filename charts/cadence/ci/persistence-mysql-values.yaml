@@ -13,3 +13,29 @@ cassandra:
 mysql:
   enabled: true
   mysqlPassword: "cadence"
+  secretsAnnotations:
+    helm.sh/hook: pre-install
+    helm.sh/hook-weight: "-8"
+    helm.sh/hook-delete-policy: before-hook-creation
+  configurationFilesAnnotations:
+    helm.sh/hook: pre-install
+    helm.sh/hook-weight: "-7"
+    helm.sh/hook-delete-policy: before-hook-creation
+  initializationFilesAnnotation:
+    helm.sh/hook: pre-install
+    helm.sh/hook-weight: "-6"
+    helm.sh/hook-delete-policy: before-hook-creation
+  persistence:
+    annotations:
+      helm.sh/hook: pre-install
+      helm.sh/hook-weight: "-5"
+      helm.sh/hook-delete-policy: before-hook-creation
+  deploymentAnnotations:
+    helm.sh/hook: pre-install
+    helm.sh/hook-weight: "-4"
+    helm.sh/hook-delete-policy: before-hook-creation
+  service:
+    annotations:
+      helm.sh/hook: pre-install
+      helm.sh/hook-weight: "-3"
+      helm.sh/hook-delete-policy: before-hook-creation

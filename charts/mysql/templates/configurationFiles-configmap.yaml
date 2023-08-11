@@ -4,6 +4,10 @@ kind: ConfigMap
 metadata:
   name: {{ template "mysql.fullname" . }}-configuration
   namespace: {{ .Release.Namespace }}
+{{- with .Values.configurationFilesAnnotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
 data:
 {{- range $key, $val := .Values.configurationFiles }}
   {{ $key }}: |-

@@ -20,3 +20,13 @@ cassandra:
       -Dcassandra.initial_token=0
     persistence:
       enabled: true
+  service:
+    annotations:
+      helm.sh/hook: pre-install
+      helm.sh/hook-weight: "-5"
+      helm.sh/hook-delete-policy: before-hook-creation
+  statefulset:
+    annotations:
+      helm.sh/hook: pre-install
+      helm.sh/hook-weight: "-4"
+      helm.sh/hook-delete-policy: before-hook-creation
