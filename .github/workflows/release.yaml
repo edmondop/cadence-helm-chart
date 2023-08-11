@@ -1,0 +1,63 @@
+name: Helm Release
+
+on:
+  push:
+    tags:
+      - "**/[0-9]+.[0-9]+.[0-9]+"
+      - "**/[0-9]+.[0-9]+.[0-9]+-dev.[0-9]+"
+
+
+env:
+  HELM_VERSION: 3.1.1
+
+jobs:
+  helm:
+    name: Publish to Github Pages
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - uses: azure/setup-helm@v1
+        with:
+          version: ${{ env.HELM_VERSION }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Set Git refname
+        id: set-git-refname
+        run: |
+          GIT_REFNAME="$(echo "${{ github.ref }}" | sed -r 's@refs/(heads|pull|tags)/@@g')"
+
+          echo "GIT_REFNAME=${GIT_REFNAME}"
+          echo ::set-output name=git_refname::${GIT_REFNAME}
+
+
+      - name: Check Git Tag consistency with Chart version
+        run: |
+            EXPECTED_CHART_VERSION="$(echo "${{ steps.set-git-refname.outputs.git_refname }}" | awk -F '/' '{print $NF}')" || exit 1
+            ACTUAL_CHART_VERSION="$(awk '/version: [0-9]+\.[0-9]+\.[0-9]+/ {print $2}' "./charts/cadence/Chart.yaml")" || exit 1
+
+            if [ "${EXPECTED_CHART_VERSION}" != "${ACTUAL_CHART_VERSION}" ]; then
+              printf >&2 "chart version mismatches, expected version (from tag): %s, actual version (from chart): %s" "${EXPECTED_CHART_VERSION}" "${ACTUAL_CHART_VERSION}"
+              exit 1
+            fi
+        
+      - name: Checkout forked chart-releaser
+        uses: actions/checkout@v3
+        with:
+          repository: edmondop/chart-releaser-action
+          path: chart-releaser-action
+          ref: ef58c21b3f93daff872ba384abd9cdb16e715334
+
+      - name: Run chart-releaser
+        uses: ./chart-releaser-action
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+

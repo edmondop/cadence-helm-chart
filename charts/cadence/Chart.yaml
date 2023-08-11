@@ -5,12 +5,11 @@ description: Cadence is a distributed, scalable, durable, and highly available o
 icon: https://raw.githubusercontent.com/uber/cadence-web/master/client/assets/logo.svg
 apiVersion: v1
 home: https://cadenceworkflow.io/
-engine: gotpl
 sources:
   - https://github.com/uber/cadence
 keywords:
   - cadence
   - workflow
 maintainers:
-  - name: Banzai Cloud
-    email: info@banzaicloud.com
+  - name: Edmondo Porcu
+    email: edmondo.porcu@gmail.com

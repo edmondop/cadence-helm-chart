@@ -2,11 +2,16 @@
 
 [Cadence](https://cadenceworkflow.io/)  is a distributed, scalable, durable, and highly available orchestration engine to execute asynchronous long-running business logic in a scalable and resilient way.
 
+## Important information
+
+BanzaiCloud is not maintaining anymore the Helm Chart for Cadence, so if you have been using the Cadence Helm Chart for some time you might need to change few things from now on. A special thanks to their team for the great work. 
 
 ## TL;DR;
 
+The new release process allows anybody to quickly publish the chart on GitHub repo, using `chart-releaser-action` GitHub action that creates public Helm Chart Repo. If your repo is not hosted under user `edmondop`, please replace the right username
+
 ```bash
-$ helm repo add banzaicloud-stable https://kubernetes-charts.banzaicloud.com
+$ helm repo add cadence https://edmondop.github.io/cadence-helm-chart/
 $ helm repo update
 ```
 
@@ -27,7 +32,7 @@ This chart bootstraps a [Cadence](https://github.com/uber/cadence) and a [Cadenc
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm install --name my-release --namespace cadence banzaicloud-stable/cadence
+$ helm install --name my-release --namespace cadence cadence/cadence
 ```
 
 > **Tip**: List all releases using `helm list`
@@ -37,7 +42,7 @@ $ helm install --name my-release --namespace cadence banzaicloud-stable/cadence
 
 ```console
 # Helm
-$ helm upgrade [RELEASE_NAME] banzaicloud-stable/cadence
+$ helm upgrade [RELEASE_NAME] cadence/cadence
 ```
 
 ### From 0.20.x (or below) to 0.21.y (or above)
@@ -133,13 +138,13 @@ The command removes all the Kubernetes components associated with the chart and 
 The chart comes with a single node Cassandra by default (from [incubator/cassandra](https://github.com/helm/charts/tree/master/incubator/cassandra)).
 
 ```bash
-$ helm install banzaicloud-stable/cadence
+$ helm install cadence/cadence
 ```
 
 You can increase the number of Cassandra nodes if you want:
 
 ```bash
-$ helm install --set cassandra.config.cluster_size=3 banzaicloud-stable/cadence
+$ helm install --set cassandra.config.cluster_size=3 cadence/cadence
 ```
 
 > **Note:** It takes a few minutes to start Cassandra. You can speed it up by using configuration from `values.dev.yaml`.
@@ -175,13 +180,13 @@ $ kubectl exec -it cassandra-0 -- cqlsh -e "CREATE KEYSPACE cadence_visibility W
 ```
 
 ```bash
-$ helm install -f values/values.cassandra.yaml banzaicloud-stable/cadence
+$ helm install -f values/values.cassandra.yaml cadence/cadence
 ```
 
 Alternatively, install the chart with manual migrations. Follow the steps in [migrations.md](migrations.md).
 
 ```bash
-$ helm install -f values/values.cassandra.yaml --set schema.setup.enabled=false --set schema.update.enabled=false banzaicloud-stable/cadence
+$ helm install -f values/values.cassandra.yaml --set schema.setup.enabled=false --set schema.update.enabled=false cadence/cadence
 ```
 
 
@@ -192,7 +197,7 @@ $ helm install -f values/values.cassandra.yaml --set schema.setup.enabled=false 
 The chart can be installed with a single node MySQL (from [stable/mysql](https://github.com/helm/charts/tree/master/stable/mysql)).
 
 ```bash
-$ helm install --set cassandra.enabled=false --set mysql.enabled=true --set mysql.mysqlPassword=cadence banzaicloud-stable/cadence
+$ helm install --set cassandra.enabled=false --set mysql.enabled=true --set mysql.mysqlPassword=cadence cadence/cadence
 ```
 
 > **Note:** When installing MySQL from within the chart with automatic migrations, you **must** configure a password.
@@ -222,13 +227,13 @@ $ kubectl wait --for=condition=Ready pod/$(kubectl get pods -l 'app=mysql' -o js
 ```
 
 ```bash
-$ helm install -f values/values.mysql.yaml banzaicloud-stable/cadence
+$ helm install -f values/values.mysql.yaml cadence/cadence
 ```
 
 Alternatively, install the chart with manual migrations. Follow the steps in [migrations.md](migrations.md).
 
 ```bash
-$ helm install -f values/values.mysql.yaml --set schema.setup.enabled=false --set schema.update.enabled=false banzaicloud-stable/cadence
+$ helm install -f values/values.mysql.yaml --set schema.setup.enabled=false --set schema.update.enabled=false cadence/cadence
 ```
 
 
@@ -238,13 +243,13 @@ As of 0.5.8 Cadence exports Prometheus metrics. The chart supports annotating Ca
 so that Prometheus can scrape them:
 
 ```bash
-$ helm install --set server.metrics.annotations.enabled=true banzaicloud-stable/cadence
+$ helm install --set server.metrics.annotations.enabled=true cadence/cadence
 ```
 
 Alternatively, you can enable ServiceMonitor when using [Prometheus Operator](https://github.com/coreos/prometheus-operator):
 
 ```bash
-$ helm install --set server.metrics.serviceMonitor.enabled=true banzaicloud-stable/cadence
+$ helm install --set server.metrics.serviceMonitor.enabled=true cadence/cadence
 ```
 
 Note that you can enable monitoring for each service separately. See the configuration reference bellow.
@@ -279,7 +284,7 @@ The reason behind this limitation is that migrations are executed as helm hooks,
 
 ## Port forwarding to Cadence frontend
 
-As of version 0.5.1 of this chart service (frontend, history, matching, worker) pods use the [pod IP as bind address](https://github.com/banzaicloud/banzai-charts/pull/997).
+As of version 0.5.1 of this chart service (frontend, history, matching, worker) pods use the [pod IP as bind address](https://github.com/cadence/banzai-charts/pull/997).
 
 This is a limitation of how Cadence cluster membership works and is required for scaling Cadence components.
 
@@ -393,17 +398,21 @@ Global options overridable per service are marked with an asterisk.
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
 
 ```bash
-$ helm install --name my-release --set server.image.tag=0.7.1 banzaicloud-stable/cadence
+$ helm install --name my-release --set server.image.tag=0.7.1 cadence/cadence
 ```
 
 Alternatively, a YAML file that specifies the values for the parameters can be provided while
 installing the chart. For example:
 
 ```bash
-$ helm install --name my-release --values values.yaml banzaicloud-stable/cadence
+$ helm install --name my-release --values values.yaml cadence/cadence
 ```
 
 ## Contributing
+
+### New release process. 
+The new release process use GitHub Pages as an Helm Chart Repository. In order to test the release, set up GitHub Pages for your fork. This will allow you to see how your changes affect the final outcome. Please create a branch named `gh-pages` and enabled on your repository GitHub Pages from that branch. If you need more information, please consult the [Chart Releaser Action Documentation](https://github.com/helm/chart-releaser-action)
+
 
 ### Chart upgrade
 
