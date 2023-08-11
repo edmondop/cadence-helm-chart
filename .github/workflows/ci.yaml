@@ -10,7 +10,7 @@ env:
 
 jobs:
   helm:
-    name: Chart Linting
+    name: Chart Linting And Testing
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
