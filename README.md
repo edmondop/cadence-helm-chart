@@ -4,7 +4,7 @@
 
 ## Important information
 
-BanzaiCloud is not maintaining anymore the Helm Chart for Cadence, so if you have been using the Cadence Helm Chart for some time you might need to change few things from now on. A special thanks to their team for the great work. 
+BanzaiCloud is not maintaining anymore the Helm Chart for Cadence, so if you have been using the Cadence Helm Chart for some time you might need to change few things from now on. A special thanks to their team for the great work.
 
 ## TL;DR;
 
@@ -410,7 +410,11 @@ $ helm install --name my-release --values values.yaml cadence/cadence
 
 ## Contributing
 
-### New release process. 
+### Developer setup
+
+You can download dependencies and install the pre-commit hooks using `make setup` or update the dependencies running `make update-dependencies`
+
+### New release process.
 The new release process use GitHub Pages as an Helm Chart Repository. In order to test the release, set up GitHub Pages for your fork. This will allow you to see how your changes affect the final outcome. Please create a branch named `gh-pages` and enabled on your repository GitHub Pages from that branch. If you need more information, please consult the [Chart Releaser Action Documentation](https://github.com/helm/chart-releaser-action)
 
 

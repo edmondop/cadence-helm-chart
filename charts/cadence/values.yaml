@@ -110,7 +110,7 @@ server:
       # WARNING: This value **MUST NOT** be changed after launching the Cadence
       # cluster.
       currentClusterName: "cluster-0"
-      
+
       # clusterInformation contains the information about each Cadence cluster
       # which participates in a Cadence cluster group.
       #
@@ -149,7 +149,7 @@ server:
 
     persistence:
       default:
-        driver: "" # cassandra or sql
+        driver: ""  # cassandra or sql
 
         cassandra:
           hosts: []
@@ -165,7 +165,7 @@ server:
           # protoVersion: 4
 
         sql:
-          pluginName: "" # mysql
+          pluginName: ""  # mysql
           host: ""
           # port: 3306
           database: cadence
@@ -179,7 +179,7 @@ server:
             # tx_isolation: "READ-COMMITTED"
 
       visibility:
-        driver: "" # cassandra or sql
+        driver: ""  # cassandra or sql
 
         cassandra:
           hosts: []
@@ -195,7 +195,7 @@ server:
           # protoVersion: 4
 
         sql:
-          pluginName: "" # mysql
+          pluginName: ""  # mysql
           host: ""
           # port: 3306
           database: cadence_visibility
@@ -214,7 +214,7 @@ server:
       type: ClusterIP
       grpcPort: 7833
       port: 7933
-      transport: grpc # grpc or tchannel
+      transport: grpc  # grpc or tchannel
       annotations: {}
     metrics:
       annotations: {}
