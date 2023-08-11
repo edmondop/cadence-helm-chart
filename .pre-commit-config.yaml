@@ -1,3 +1,4 @@
+exclude: ^charts/(mysql|cassandra)/
 fail_fast: true
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks

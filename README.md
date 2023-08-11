@@ -414,6 +414,11 @@ $ helm install --name my-release --values values.yaml cadence/cadence
 
 You can download dependencies and install the pre-commit hooks using `make setup` or update the dependencies running `make update-dependencies`
 
+### Testing
+
+To implement test automation for the Helm Chart with GitHub Actions, it was necessary to create a local fork of the database charts to ensure some resources that do not support annotations could be initialized in the correct order. When a PR like
+https://github.com/helm/chart-testing/pull/243/files will be merged, we could use Helm Post Renderer to add annotations to resources in Charts that do not support annotating them, or alternatively we could remove database charts as dependencies and pre-install them to simplify tasting but at the cost of worse developer experience.
+
 ### New release process.
 The new release process use GitHub Pages as an Helm Chart Repository. In order to test the release, set up GitHub Pages for your fork. This will allow you to see how your changes affect the final outcome. Please create a branch named `gh-pages` and enabled on your repository GitHub Pages from that branch. If you need more information, please consult the [Chart Releaser Action Documentation](https://github.com/helm/chart-releaser-action)
 
