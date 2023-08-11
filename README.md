@@ -32,7 +32,7 @@ This chart bootstraps a [Cadence](https://github.com/uber/cadence) and a [Cadenc
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm install --name my-release --namespace cadence cadence/cadence
+$ helm install my-release --namespace cadence cadence/cadence
 ```
 
 > **Tip**: List all releases using `helm list`
@@ -398,14 +398,14 @@ Global options overridable per service are marked with an asterisk.
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
 
 ```bash
-$ helm install --name my-release --set server.image.tag=0.7.1 cadence/cadence
+$ helm install my-release --set server.image.tag=0.7.1 cadence/cadence
 ```
 
 Alternatively, a YAML file that specifies the values for the parameters can be provided while
 installing the chart. For example:
 
 ```bash
-$ helm install --name my-release --values values.yaml cadence/cadence
+$ helm install my-release --values values.yaml cadence/cadence
 ```
 
 ## Contributing
