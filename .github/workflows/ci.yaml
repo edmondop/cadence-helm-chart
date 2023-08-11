@@ -37,3 +37,10 @@ jobs:
 
       - name: Lint chart
         run: ct lint --all --config ct.yaml
+
+      - name: Create kind cluster
+        uses: helm/kind-action@v1.4.0
+
+      - name: Run chart-testing (install)
+        run: |
+          ct install --all --config ct.yaml --helm-extra-args="--timeout 10m"
