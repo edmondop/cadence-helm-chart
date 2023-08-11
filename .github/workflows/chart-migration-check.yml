@@ -1,0 +1,63 @@
+name: Charts Diff
+
+on:
+  pull_request:
+    paths:
+    - 'charts/mysql/**'
+    - 'charts/cassandra/**'
+
+jobs:
+  diff:
+    runs-on: ubuntu-latest
+    permissions:
+        pull-requests: write
+    steps:
+
+    - name: Checkout Current Repo
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    # Repo is now archied, so master is a stable commit
+    - name: Checkout Helm/Charts Master for MySQL
+      uses: actions/checkout@v2
+      with:
+        repository: helm/charts
+        ref: master
+        path: upstream-charts
+
+    - name: Diff Charts
+      run: |
+        make diff-charts \
+        LEGACY_HELM_CHARTS_DIR="./upstream-charts" \
+        DIFF_OUTPUT_DIR="./observed_diffs"
+
+    - name: Prepare Diffs for Comment
+      run: |
+        echo "MYSQL_DIFF<<EOF" >> $GITHUB_ENV
+        cat observed_diffs/mysql.diff >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
+
+        echo "CASSANDRA_DIFF<<EOF" >> $GITHUB_ENV
+        cat observed_diffs/cassandra.diff >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
+
+    - name: MySQL Diff
+      uses: marocchino/sticky-pull-request-comment@v2
+      with:
+        header: MySQL Differences
+        message: |
+            # MySQL Chart Diff
+            ```diff
+            ${{ env.MYSQL_DIFF }}
+            ```
+
+    - name: Cassandra Diff
+      uses: marocchino/sticky-pull-request-comment@v2
+      with:
+        header: Cassandra Differences
+        message: |
+            # Cassandra Chart Diff
+            ```diff
+            ${{ env.CASSANDRA_DIFF }}
+            ```

@@ -1,9 +1,9 @@
 dependencies:
   - name: cassandra
-    version: ^0.13.1
-    repository: https://charts.helm.sh/incubator
+    version: ^0.15.4
+    repository: "file://../cassandra"
     condition: cassandra.enabled
   - name: mysql
     version: ^1.2.0
-    repository: https://charts.helm.sh/stable
+    repository: "file://../mysql"
     condition: mysql.enabled
