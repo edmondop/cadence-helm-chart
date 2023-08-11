@@ -1,0 +1,15 @@
+server:
+  podAnnotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/port: '9090'
+  config:
+    persistence:
+      default:
+        driver: "sql"
+
+cassandra:
+  enabled: false
+
+mysql:
+  enabled: true
+  mysqlPassword: "cadence"
