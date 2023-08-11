@@ -1,0 +1,7 @@
+validate-maintainers: false
+chart-repos:
+  - incubator=https://charts.helm.sh/incubator
+  - chartmuseum=https://kubernetes-charts.banzaicloud.com
+  - stable=https://charts.helm.sh/stable
+  - banzaicloud-stable=http://kubernetes-charts.banzaicloud.com/branch/master
+  - rimusz=https://charts.rimusz.net
