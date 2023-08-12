@@ -8,7 +8,7 @@ BanzaiCloud is not maintaining anymore the Helm Chart for Cadence, so if you hav
 
 ## TL;DR;
 
-The new release process allows anybody to quickly publish the chart on GitHub repo, using `chart-releaser-action` GitHub action that creates public Helm Chart Repo. If your repo is not hosted under user `edmondop`, please replace the right username
+The new release process allows anybody to quickly publish the chart on GitHub repo, using `chart-releaser-action` GitHub action that creates public Helm Chart Repo. If your repo is not hosted under user `edmondop`, please replace `edmondop` with the right username in the URL below
 
 ```bash
 $ helm repo add cadence https://edmondop.github.io/cadence-helm-chart/
